@@ -20,6 +20,12 @@ const GLchar* vertexShaderSource = "#version 330 core\n"
 	"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
 	"}\n\0";
 
+const GLchar* fragmentShaderSource = "#version 330 core\n"
+	"out vec4 color;\n"
+	"{\n"
+	"color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+	"}\n\0";
+
 
 int main(int argc, char* args[])
 {
@@ -61,6 +67,11 @@ int main(int argc, char* args[])
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	GLuint vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+	glCompileShader(vertexShader);
 
 	while (!glfwWindowShouldClose(window))
 	{
