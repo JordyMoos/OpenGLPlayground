@@ -22,6 +22,7 @@ const GLchar* vertexShaderSource = "#version 330 core\n"
 
 const GLchar* fragmentShaderSource = "#version 330 core\n"
 	"out vec4 color;\n"
+	"void main()\n"
 	"{\n"
 	"color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 	"}\n\0";
@@ -72,6 +73,35 @@ int main(int argc, char* args[])
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
 	glCompileShader(vertexShader);
+
+	GLuint fragmentShader;
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+	glCompileShader(fragmentShader);
+
+	GLuint shaderProgram;
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+	GLint shaderProgramSucces;
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &shaderProgramSucces);
+	if (!shaderProgramSucces)
+	{
+		GLchar infoLog[512];
+		glGetProgramInfoLog(shaderProgram, 512, nullptr, infoLog);
+		printf("Shader program failed\n");
+		printf("%s\n", infoLog);
+
+		return -1;
+	}
+
+	glUseProgram(shaderProgram);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
 
 	while (!glfwWindowShouldClose(window))
 	{
