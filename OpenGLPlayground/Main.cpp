@@ -10,13 +10,15 @@ const GLuint WIDTH = 800;
 const GLuint HEIGHT = 600;
 
 
-void keyCallback(GLFWwindow*, int key, int scancode, int action, int mode)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-	{
-		glfwSetWindowShouldClose(window, GL_TRUE);
-	}
-}
+void keyCallback(GLFWwindow*, int key, int scancode, int action, int mode);
+
+
+const GLchar* vertexShaderSource = "#version 330 core\n"
+	"layout (location = 0) in vec3 position;\n"
+	"void main()\n"
+	"{\n"
+	"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
+	"}\n\0";
 
 
 int main(int argc, char* args[])
@@ -50,6 +52,16 @@ int main(int argc, char* args[])
 	glfwGetFramebufferSize(window, &width, &height);
 	glViewport(0, 0, width, height);
 
+	GLfloat vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
+	};
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
@@ -65,5 +77,12 @@ int main(int argc, char* args[])
 }
 
 
+void keyCallback(GLFWwindow*, int key, int scancode, int action, int mode)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+}
 
 
