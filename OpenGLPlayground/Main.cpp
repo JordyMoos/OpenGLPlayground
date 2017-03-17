@@ -6,6 +6,8 @@
 
 
 GLFWwindow* window = nullptr;
+const GLuint WIDTH = 800;
+const GLuint HEIGHT = 600;
 
 
 void keyCallback(GLFWwindow*, int key, int scancode, int action, int mode)
@@ -25,7 +27,7 @@ int main(int argc, char* args[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+	window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
 	if (window == nullptr)
 	{
 		printf("Failed to create GLFW window\n");
@@ -40,6 +42,7 @@ int main(int argc, char* args[])
 	if (glewInit() != GLEW_OK)
 	{
 		printf("Failed to initialize GLEW");
+		glfwTerminate();
 		return -1;
 	}
 
@@ -57,6 +60,7 @@ int main(int argc, char* args[])
 		glfwSwapBuffers(window);
 	}
 
+	glfwTerminate();
 	return 0;
 }
 
