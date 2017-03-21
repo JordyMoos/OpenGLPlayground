@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{8a59698e-f834-4dfd-b317-51679c57d7ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\images">
+      <UniqueIdentifier>{933162e8-36ed-48e2-9c1a-21cf97e8d55d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -32,6 +35,9 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StbImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertex.vs">
@@ -40,5 +46,19 @@
     <None Include="fragment.frag">
       <Filter>Resource Files\shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="awesomeface.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="container.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="mipmaps.png">
+      <Filter>Resource Files\images</Filter>
+    </Image>
+    <Image Include="wall.jpg">
+      <Filter>Resource Files\images</Filter>
+    </Image>
   </ItemGroup>
 </Project>
