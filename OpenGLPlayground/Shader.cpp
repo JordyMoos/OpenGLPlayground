@@ -69,11 +69,11 @@ bool Shader::Initialize(const GLchar* vertexPath, const GLchar* fragmentPath)
 		return false;
 	}
 
-	this->Program = glCreateProgram();
-	glAttachShader(this->Program, vertex);
-	glAttachShader(this->Program, fragment);
-	glLinkProgram(this->Program);
-	glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
+	Program = glCreateProgram();
+	glAttachShader(Program, vertex);
+	glAttachShader(Program, fragment);
+	glLinkProgram(Program);
+	glGetProgramiv(Program, GL_LINK_STATUS, &success);
 	if (!success)
 	{
 		glGetProgramInfoLog(this->Program, 512, nullptr, infoLog);
@@ -90,6 +90,6 @@ bool Shader::Initialize(const GLchar* vertexPath, const GLchar* fragmentPath)
 
 void Shader::Use()
 {
-	glUseProgram(this->Program);
+	glUseProgram(Program);
 }
 
