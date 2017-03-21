@@ -56,6 +56,11 @@ int main(int argc, char* args[])
 	GLuint indices[] = {
 		0, 1, 2
 	};
+	GLfloat texCoords[] = {
+		0.0f, 0.0f, // Lower left
+		1.0f, 0.0f, // Lower right
+		0.5f, 1.0f  // Top center
+	};
 	GLuint VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
