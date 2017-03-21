@@ -94,21 +94,38 @@ int main(int argc, char* args[])
 		return -1;
 	}
 
+	// First image
 	int comp;
-	unsigned char* image = stbi_load("wall.jpg", &width, &height, &comp, STBI_rgb);
-	if (image == nullptr)
+	unsigned char* image1 = stbi_load("wall.jpg", &width, &height, &comp, STBI_rgb);
+	if (image1 == nullptr)
 	{
-		printf("Failed loading the image\n");
+		printf("Failed loading the first image\n");
 		return -1;
 	}
 
-	GLuint texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	GLuint texture1;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image1);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(image);
+	stbi_image_free(image1);
+
+	// Second image
+	unsigned char* image2 = stbi_load("awesomeface.png", &width, &height, &comp, STBI_rgb);
+	if (image2 == nullptr)
+	{
+		printf("Failed loading the second image\n");
+		return -1;
+	}
+
+	GLuint texture2;
+	glGenTextures(1, &texture2);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image2);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	stbi_image_free(image2);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -120,7 +137,14 @@ int main(int argc, char* args[])
 
 		shader.Use();
 
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glUniform1i(glGetUniformLocation(shader.GetProgram(), "ourTexture1"), 0);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
+		glUniform1i(glGetUniformLocation(shader.GetProgram(), "ourTexture2"), 1);
+
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
