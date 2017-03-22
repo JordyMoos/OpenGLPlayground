@@ -159,6 +159,19 @@ int main(int argc, char* args[])
 
 	glEnable(GL_DEPTH_TEST);
 
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(2.0f, 5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f, 3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f, 2.0f, -2.5f),
+		glm::vec3(1.5f, 0.2f, -1.5f),
+		glm::vec3(-1.3f, 1.0f, -1.5f)
+	};
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
@@ -168,9 +181,6 @@ int main(int argc, char* args[])
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.Use();
-
-		glm::mat4 model;
-		model = glm::rotate(model, (GLfloat)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
 		glm::mat4 view;
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -182,7 +192,6 @@ int main(int argc, char* args[])
 		GLuint viewLocation = glGetUniformLocation(shader.GetProgram(), "view");
 		GLuint projectionLocation = glGetUniformLocation(shader.GetProgram(), "projection");
 
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -195,7 +204,18 @@ int main(int argc, char* args[])
 		glUniform1i(glGetUniformLocation(shader.GetProgram(), "ourTexture2"), 1);
 
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		for (GLuint i = 0; i < 10; i++)
+		{
+			glm::mat4 model;
+			model = glm::translate(model, cubePositions[i]);
+			GLfloat angle = glm::radians(20.0f * (i+1) * glfwGetTime());
+			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+			glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
